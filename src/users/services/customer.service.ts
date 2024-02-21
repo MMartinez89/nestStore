@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CretateCustomerDto, UpdateCustomerDto } from 'src/dtos/customer.dto';
-import { Customer } from 'src/entities/customer.entity';
+import { CretateCustomerDto, UpdateCustomerDto } from './../dtos/customer.dto';
+import { Customer } from './../entities/customer.entity';
 
 @Injectable()
 export class CustomerService {

@@ -10,9 +10,11 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { CreateBrandDtop, UpdateBrandDto } from 'src/dtos/brand.dto';
-import { BrandService } from 'src/services/brand/brand.service';
+import { CreateBrandDtop, UpdateBrandDto } from './../dtos/brand.dto';
+import { BrandService } from './../services/brand.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('brands')
 @Controller('brands')
 export class BrandsController {
   constructor(private brandsService: BrandService) {}

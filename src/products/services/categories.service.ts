@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateCategoryDto } from 'src/dtos/category.dto';
-import { UpdateProductDto } from 'src/dtos/products.dto';
-import { Category } from 'src/entities/category.entity';
+import { Category } from './../entities/category.entity';
+import { CreateCategoryDto, updateCategoryDto } from '../dtos/category.dto';
 
 @Injectable()
 export class CategoriesService {
@@ -35,7 +34,7 @@ export class CategoriesService {
     return newCategory;
   }
 
-  update(id: number, payload: UpdateProductDto) {
+  update(id: number, payload: updateCategoryDto) {
     const category = this.findOne(id);
     if (category) {
       const index = this.categories.findIndex((item) => item.id === id);

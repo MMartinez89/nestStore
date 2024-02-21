@@ -8,9 +8,11 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { CreateUserDto, UpdateUserDto } from 'src/dtos/user.dto';
-import { UserService } from 'src/services/user/user.service';
+import { CreateUserDto, UpdateUserDto } from './../dtos/user.dto';
+import { UserService } from './../services/user.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('user')
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
@@ -23,6 +25,11 @@ export class UserController {
   @Get(':id')
   getOne(@Param('id', ParseIntPipe) id: number) {
     return this.userService.getOne(id);
+  }
+
+  @Get(':id/orders')
+  getOrders(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.getOrdersByUser(id);
   }
 
   @Post()

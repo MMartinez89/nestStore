@@ -76,3 +76,20 @@ Nest is [MIT licensed](LICENSE).
 npm i class-validator
 npm i cass-transformer
 npm i @nestjs/mapped-types Se una para reutilizar codigo
+
+## Modulo Http
+npm i --save @nestjs/axios axios
+
+## Manejo de variables de ambientes
+npm i @nestjs/config
+Agergar en el gitignore
+
+## Validar variables de entorno
+npm i --save joi
+
+## Dependencia del Swagger
+npm install --save @nestjs/swagger
+Para que los DTOS se muestren se tiene que modificar el nest-cli agregandole el plugins 
+"plugins": ["@nestjs/swagger"]
+Y ya no se usa el PartialType del @nestjs/mapped-types si no de @nestjs/swagger
+
