@@ -22,6 +22,11 @@ export class UserController {
     return this.userService.getAll();
   }
 
+  /*@Get('tasks')
+  getTasks() {
+    return this.userService.getTasks();
+  }*/
+
   @Get(':id')
   getOne(@Param('id', ParseIntPipe) id: number) {
     return this.userService.getOne(id);

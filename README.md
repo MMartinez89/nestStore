@@ -93,3 +93,56 @@ Para que los DTOS se muestren se tiene que modificar el nest-cli agregandole el 
 "plugins": ["@nestjs/swagger"]
 Y ya no se usa el PartialType del @nestjs/mapped-types si no de @nestjs/swagger
 
+# heroku
+
+1. En el pakage.json se el etorno de node que se debe correr
+"engines": {
+  "node": "20.x"
+},
+
+2. Crear un archivo Procfile y darle el script para poder  arrancar la aplicacion, que comando tiene que hacer heroku para arrancar y colocar el puerto como una variable de entorno 
+ejemplo
+web: npm run start:prod
+
+3. usar el cli de heroku (instalarlo)
+heroku login
+heroku create
+heroku  web (se usa prueba local) el puerto tiene que ser dinamico 
+
+## Deploy heroku
+ verifica que todo funcione 
+ heroku local web 
+
+ Para deploy tiene que estar en la rama master
+ 
+ para ver los repositorio de heroku
+ git remote -v
+
+ commit a heroku
+ git push heroku master
+
+ Para gestionar las variables de entorno desde el dashboard en config vars
+ despues se hace un push en la rama master de heroku
+
+ ## Docker
+ levantar el docker compose
+ docker-compose up -d postgres
+
+ bajarlo docker-compose down
+ 
+ ## install postgres
+ npm i pg
+ tipado de postgres
+ npm i @types/pg -D
+
+ ## TYPEORM 
+ npm install --save @nestjs/typeorm typeorm
+
+
+
+
+
+
+
+
+

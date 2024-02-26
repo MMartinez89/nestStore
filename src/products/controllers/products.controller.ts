@@ -26,10 +26,8 @@ export class ProductsController {
 
   @Get()
   @ApiOperation({ summary: 'List of products' })
-  getProducts() //@Query('limit') limit = 100,
-  //@Query('offset') offset = 0,
-  //@Query('brand') brand: string,
-  {
+  getProducts() {
+    //@Query('brand') brand: string, //@Query('offset') offset = 0, //@Query('limit') limit = 100,
     //return {
     //  message: `product limit => ${limit} offset => ${offset} brand ${brand}`,
     //};
@@ -49,24 +47,19 @@ export class ProductsController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   create(@Body() payload: CreateProductDto) {
-    //return {
-    //  message: 'accion de crear',
-    //  payload,
-    //};
     return this.productServive.create(payload);
   }
 
   @Put(':id')
-  update(@Param('id') id: number, @Body() payload: UpdateProductDto) {
-    // return {
-    //   id,
-    //   payload,
-    // };
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() payload: UpdateProductDto,
+  ) {
     return this.productServive.update(id, payload);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
+  delete(@Param('id', ParseIntPipe) id: number) {
     return this.productServive.remove(+id);
   }
 }
