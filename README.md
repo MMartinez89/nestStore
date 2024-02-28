@@ -137,6 +137,10 @@ heroku  web (se usa prueba local) el puerto tiene que ser dinamico
 
  ## TYPEORM 
  npm install --save @nestjs/typeorm typeorm
+ npm install ts-node --save-dev type orm para type script
+
+## Paquete para leer variables de entorno desde un codigo plano
+npm i dotenv
 
 
 
