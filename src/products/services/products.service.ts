@@ -1,9 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, FindOptionsWhere } from 'typeorm';
+import { In, Repository } from 'typeorm';
 
 import { Product } from '../entities/products.entity';
 import { CreateProductDto, UpdateProductDto } from '../dtos/products.dto';
+import { BrandService } from './brand.service';
+import { Category } from '../entities/category.entity';
+import { Brand } from '../entities/brand.entity';
 
 @Injectable()
 export class ProductsService {
@@ -21,28 +24,35 @@ export class ProductsService {
 
   constructor(
     @InjectRepository(Product) private productRepo: Repository<Product>,
+    @InjectRepository(Category) private categoryRepo: Repository<Category>,
+    @InjectRepository(Brand) private brandRepo: Repository<Brand>,
+    private brandService: BrandService,
   ) {}
 
   findAll() {
     //return this.products;
 
     // FORMA CON TYPEORM
-    return this.productRepo.find();
+    return this.productRepo.find({
+      relations: ['brand'],
+    });
   }
 
   async findOne(id: number) {
     //const product = this.products.find((item) => item.id === id);
 
     //FORMA CON TYPEORM
-    const product = await this.productRepo.findOne({ where: { id } });
-    console.log(product);
+    const product = await this.productRepo.findOne({
+      where: { id },
+      relations: ['brand', 'categories'],
+    });
     if (!product) {
       throw new NotFoundException(`Product ${id} not found`);
     }
     return product;
   }
 
-  create(payload: CreateProductDto) {
+  async create(data: CreateProductDto) {
     /*this.counterId = this.counterId + 1;
     const newProduct = {
       id: this.counterId,
@@ -56,7 +66,19 @@ export class ProductsService {
     //newProduct.name = payload.name;
 
     // FORMA CON TYPEORM
-    const newProduct = this.productRepo.create(payload);
+    const newProduct = this.productRepo.create(data);
+    if (data.brandId) {
+      const brand = await this.brandRepo.findOne({
+        where: { id: data.brandId },
+      });
+      newProduct.brand = brand;
+    }
+    if (data.categoriesIds) {
+      const categories = await this.categoryRepo.findBy({
+        id: In(data.categoriesIds),
+      });
+      newProduct.categories = categories;
+    }
     return this.productRepo.save(newProduct);
   }
 
@@ -75,6 +97,11 @@ export class ProductsService {
     const product = await this.productRepo.findOne({ where: { id } });
     if (!product) {
       throw new NotFoundException(`Product ${id} not found`);
+    }
+
+    if (change.brandId) {
+      const brand = await this.brandService.getOne(change.brandId);
+      product.brand = brand;
     }
     //actualiza la informacion con base al producto
     this.productRepo.merge(product, change);

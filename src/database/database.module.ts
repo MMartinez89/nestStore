@@ -20,7 +20,7 @@ const API_KEY_PROD = 'Pro123';
           username: user,
           password,
           database: dbName,
-          synchronize: true, // las entidades se sincroniza con la base de datos y crea las tablas
+          synchronize: false, // las entidades se sincroniza con la base de datos y crea las tablas
           autoLoadEntities: true, // las entidades sean auto cargadas, busca la entidad y la sincroniza synchronize y autoLoadEntities van juntas
         };
       },

@@ -17,9 +17,9 @@ export class CustomerService {
 
   async getOne(id: number) {
     const customer = await this.customerRepository.findOne({ where: { id } });
-    if (!customer) {
-      return new NotFoundException(`Customer ${id} not found`);
-    }
+    // if (!customer) {
+    //  return new NotFoundException(`Customer ${id} not found`);
+    // }
     return customer;
   }
 
