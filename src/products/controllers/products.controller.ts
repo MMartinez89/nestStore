@@ -58,8 +58,24 @@ export class ProductsController {
     return this.productServive.update(id, payload);
   }
 
+  @Put(':id/category/:idCategories')
+  addCatehoriesToProduct(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('idCategories', ParseIntPipe) idCategories: number,
+  ) {
+    return this.productServive.addCategoryToProduct(id, idCategories);
+  }
+
   @Delete(':id')
   delete(@Param('id', ParseIntPipe) id: number) {
     return this.productServive.remove(+id);
+  }
+
+  @Delete(':id/category/:categoryId')
+  deleteCategory(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('categoryId', ParseIntPipe) categoryId: number,
+  ) {
+    return this.productServive.removeCategoryByProduct(id, categoryId);
   }
 }

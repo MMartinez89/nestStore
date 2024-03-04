@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto } from './../dtos/user.dto';
 import { User } from './../entities/user.entity';
-import { Order } from '../entities/order.entity';
 import { ProductsService } from 'src/products/services/products.service';
 //import { ConfigType } from '@nestjs/config';
 //import config from './../../config';
@@ -59,14 +58,14 @@ export class UserService {
     return this.userRepository.delete(id);
   }
 
-  async getOrdersByUser(id: number): Promise<Order> {
+  /*async getOrdersByUser(id: number): Promise<Order> {
     const user = this.userRepository.findOne({ where: { id } });
     return {
       date: new Date(),
       user: await user,
       products: await this.productsService.findAll(),
     };
-  }
+  }*/
 
   /*getTasks() {
     return new Promise((resolve, reject) => {
