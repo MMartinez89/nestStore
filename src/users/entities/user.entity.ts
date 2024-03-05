@@ -31,6 +31,6 @@ export class User {
   updateAt: Date;
 
   @OneToOne(() => Customer, (customer) => customer.user, { nullable: true })
-  @JoinColumn() //Crea el elemento como tal en la migracion
+  @JoinColumn({ name: 'customer_id' }) //Crea el elemento como tal en la migracion
   customer: Customer;
 }

@@ -1,9 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { Between, FindOptionsWhere, In, Repository } from 'typeorm';
 
 import { Product } from '../entities/products.entity';
-import { CreateProductDto, UpdateProductDto } from '../dtos/products.dto';
+import {
+  CreateProductDto,
+  FilterProductDto,
+  UpdateProductDto,
+} from '../dtos/products.dto';
 import { BrandService } from './brand.service';
 import { Category } from '../entities/category.entity';
 import { Brand } from '../entities/brand.entity';
@@ -29,10 +33,24 @@ export class ProductsService {
     private brandService: BrandService,
   ) {}
 
-  findAll() {
+  findAll(params?: FilterProductDto) {
     //return this.products;
 
     // FORMA CON TYPEORM
+    if (params) {
+      const where: FindOptionsWhere<Product> = {};
+      const { limit, offset } = params;
+      const { maxPrice, minPrice } = params;
+      if (maxPrice && minPrice) {
+        where.price = Between(minPrice, maxPrice);
+      }
+      return this.productRepo.find({
+        relations: ['brand'],
+        where,
+        take: limit,
+        skip: offset,
+      });
+    }
     return this.productRepo.find({
       relations: ['brand'],
     });
@@ -126,9 +144,12 @@ export class ProductsService {
     return this.productRepo.save(product);
   }
 
-  async addCategoryToProduct(productId: number, categoryId: number){
+  async addCategoryToProduct(productId: number, categoryId: number) {
     // eslint-disable-next-line prettier/prettier
-    const product = await this.productRepo.findOne({ where: { id: productId } ,relations: ['categories']});
+    const product = await this.productRepo.findOne({
+      where: { id: productId },
+      relations: ['categories'],
+    });
     const category = await this.categoryRepo.findOne({
       where: { id: categoryId },
     });

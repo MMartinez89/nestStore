@@ -1,5 +1,5 @@
-import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
+import { NestFactory, Reflector } from '@nestjs/core';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
@@ -10,8 +10,13 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true, // quita del payload todo los atributos que no eten el DTO
       forbidNonWhitelisted: true, //va a responder un error que se esta enviando algo que no esta contemplado en el esquema de datos
+      transformOptions: {
+        enableImplicitConversion: true, //Todos los  query params los tranforma a un numero
+      },
     }),
   );
+  //Activamos la tecnica de serealizacion desde cualquier punto
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   const config = new DocumentBuilder()
     .setTitle('API')
